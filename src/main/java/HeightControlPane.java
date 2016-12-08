@@ -13,9 +13,9 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 
 
-public class HightControlPane extends BorderPane {
+public class HeightControlPane extends BorderPane {
 
-    public HightControlPane() {
+    public HeightControlPane() {
         initializeControls();
         layoutControls();
         addValueChangeListeners();

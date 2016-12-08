@@ -6,11 +6,11 @@ import javafx.stage.Stage;
 /**
  * Created by aggre on 05.12.2016.
  */
-public class HightControlStarter extends Application{
+public class HeightControlStarter extends Application{
 
         @Override
         public void start(Stage primaryStage) throws Exception {
-        Region rootPanel = new HightControlPane();
+        Region rootPanel = new HeightControlPane();
 
         Scene scene = new Scene(rootPanel);
 
