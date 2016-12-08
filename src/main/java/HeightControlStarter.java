@@ -11,12 +11,10 @@ public class HeightControlStarter extends Application{
         @Override
         public void start(Stage primaryStage) throws Exception {
         Region rootPanel = new HeightControlPane();
-
         Scene scene = new Scene(rootPanel);
 
         primaryStage.setTitle("Business Control Demo");
         primaryStage.setScene(scene);
-
         primaryStage.show();
     }
 
