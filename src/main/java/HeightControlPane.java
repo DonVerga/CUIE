@@ -51,7 +51,7 @@ public class HeightControlPane extends BorderPane {
         dummy = new Canvas(500,500);
         drawCanvas();
         overlay = new StackPane();
-        build = new Rectangle(150,500,Color.CORNFLOWERBLUE);
+        build = new Rectangle(150,200,Color.CORNFLOWERBLUE);
         align = new HBox();
     }
 
@@ -71,6 +71,9 @@ public class HeightControlPane extends BorderPane {
         slider.setMin(0);
         slider.setMax(1000);
         slider.setValue(100);
+        slider.setShowTickLabels(true);
+        slider.setMajorTickUnit(200);
+        slider.setMaxHeight(500);
         overlay.getChildren().addAll(slider,build);
         setLeft(dummy);
         setCenter(overlay);
