@@ -1,3 +1,5 @@
+package ch.fhnw.cuie;
+
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.Region;
@@ -20,5 +22,6 @@ public class HeightControlStarter extends Application{
 
     public static void main(String[] args) {
         Application.launch();
+
     }
 }

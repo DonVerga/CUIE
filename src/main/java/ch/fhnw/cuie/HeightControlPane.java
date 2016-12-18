@@ -1,4 +1,4 @@
-
+package ch.fhnw.cuie;
 
 import java.time.LocalTime;
 
