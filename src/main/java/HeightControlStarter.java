@@ -13,7 +13,7 @@ public class HeightControlStarter extends Application{
         Region rootPanel = new HeightControlPane();
         Scene scene = new Scene(rootPanel);
 
-        primaryStage.setTitle("Business Control Demo");
+        primaryStage.setTitle("Height Reference");
         primaryStage.setScene(scene);
         primaryStage.show();
     }
