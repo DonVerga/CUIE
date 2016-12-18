@@ -1,3 +1,4 @@
+package ch.fhnw.cuie;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
