@@ -13,7 +13,8 @@ import javafx.scene.shape.Rectangle;
 public class HeightControlPane extends Region {
     private Slider slider;
     private Label feet , meter;
-    private Pane drawingPane,drawingPaneSlider,masterPain;
+    private double test;
+    private Pane drawingPane,drawingPaneSlider,dummyBuildPain,masterPain;
     private static final double PREFERRED_SIZE = 300;
     private static final double MINIMUM_SIZE   = 150;
     private static final double MAXIMUM_SIZE   = 600;
@@ -66,6 +67,9 @@ public class HeightControlPane extends Region {
         drawingPane = new Pane();
         drawingPaneSlider = new Pane();
         masterPain = new Pane();
+        dummyBuildPain = new Pane();
+
+
 
     }
 
@@ -74,6 +78,7 @@ public class HeightControlPane extends Region {
 
         drawingPane.getStyleClass().addAll("drawingPane");
         drawingPaneSlider.getStyleClass().addAll("drawingPaneSlider");
+        dummyBuildPain.getStyleClass().addAll("dummyBuild");
         slider.setOrientation(Orientation.VERTICAL);
         slider.setPrefHeight(PREFERRED_SIZE);
         slider.setMinHeight(PREFERRED_SIZE);
@@ -81,7 +86,9 @@ public class HeightControlPane extends Region {
         slider.setMax(1000);
         slider.setShowTickLabels(true);
         drawingPaneSlider.getChildren().addAll(slider);
-        masterPain.getChildren().addAll(drawingPaneSlider,drawingPane);
+        dummyBuildPain.setPrefHeight(PREFERRED_SIZE);
+        dummyBuildPain.getStyleClass().addAll("dummyBuildPane");
+        masterPain.getChildren().addAll(drawingPaneSlider,drawingPane,dummyBuildPain);
         drawingPane.relocate(40,180);
         masterPain.getStyleClass().addAll("master");
         getChildren().addAll(masterPain);
