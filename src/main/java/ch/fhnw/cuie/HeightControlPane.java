@@ -81,7 +81,7 @@ public class HeightControlPane extends VBox {
         drawingPane = new Pane();
     }
 
-
+//test
     private void layoutControls() {
         setPadding(new Insets(10));
         slider.setOrientation(Orientation.VERTICAL);
