@@ -7,6 +7,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -18,22 +19,23 @@ public class HeightControlPane extends VBox {
     private Label feet , meter;
     private Canvas eifeli;
     private StackPane overlay;
-    private Rectangle dummyBuilding;
     private HBox labelarrange;
     private HBox mid;
-    private static final double PREFERRED_SIZE = 500;
-    private static final double MINIMUM_SIZE   = 200;
+    private Pane drawingPane;
+    private DummyBuilder d;
+    private static final double PREFERRED_SIZE = 300;
+    private static final double MINIMUM_SIZE   = 75;
     private static final double MAXIMUM_SIZE   = 800;
 
     public HeightControlPane() {
-        initialSelfe();
+        initialSelf();
         initializeControls();
         layoutControls();
         addValueChangeListeners();
         addBindings();
     }
 
-    private void initialSelfe() {
+    private void initialSelf() {
         String fonts = getClass().getResource("font.css").toExternalForm();
         getStylesheets().add(fonts);
 
@@ -70,25 +72,28 @@ public class HeightControlPane extends VBox {
         feet = new Label("feet");
         meter = new Label("meter");
         eifeli = new ResizableCanvas();
-        eifeli.setWidth(135);
-        eifeli.setHeight(400);
+        eifeli.setWidth(100);
+        eifeli.setHeight(100);
         overlay = new StackPane();
-        dummyBuilding = new Rectangle(150,200,Color.CORNFLOWERBLUE);
         labelarrange = new HBox();
         mid = new HBox();
+        d = new DummyBuilder();
+        drawingPane = new Pane();
     }
 
 
     private void layoutControls() {
+        setPadding(new Insets(10));
         slider.setOrientation(Orientation.VERTICAL);
         slider.setMin(0);
         slider.setMax(1000);
         slider.setValue(100);
         slider.setShowTickLabels(true);
         slider.setMajorTickUnit(200);
-        slider.setMinHeight(600);
-        slider.setMaxHeight(1000);
-        overlay.getChildren().addAll(slider, dummyBuilding);
+        slider.setMinHeight(200);
+        slider.setMaxHeight(800);
+        drawingPane.getChildren().add(d);
+        overlay.getChildren().addAll(slider,drawingPane);
         overlay.setAlignment(Pos.BOTTOM_RIGHT);
         labelarrange.getChildren().addAll(meter,feet);
         mid.getChildren().addAll(eifeli,overlay);
