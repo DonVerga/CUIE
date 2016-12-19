@@ -1,31 +1,22 @@
 package ch.fhnw.cuie;
 
-import javafx.geometry.Insets;
-import javafx.geometry.Orientation;
-import javafx.geometry.Pos;
+import javafx.geometry.*;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.control.SplitPane;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 
-public class HeightControlPane extends VBox {
+public class HeightControlPane extends Region {
     private Slider slider;
     private Label feet , meter;
-    private Canvas eifeli;
-    private StackPane overlay;
-    private HBox labelarrange;
-    private HBox mid;
-    private Pane drawingPane;
-    private DummyBuilder d;
+    private Pane drawingPane,drawingPaneSlider,masterPain;
     private static final double PREFERRED_SIZE = 300;
-    private static final double MINIMUM_SIZE   = 75;
-    private static final double MAXIMUM_SIZE   = 800;
+    private static final double MINIMUM_SIZE   = 150;
+    private static final double MAXIMUM_SIZE   = 600;
 
     public HeightControlPane() {
         initialSelf();
@@ -62,43 +53,38 @@ public class HeightControlPane extends VBox {
         double scalingFactor = size / PREFERRED_SIZE;
 
         if (width > 0 && height > 0) {
-            mid.relocate((getWidth() - PREFERRED_SIZE) * 0.5, (getHeight() - PREFERRED_SIZE) * 0.5);
-            mid.setScaleX(scalingFactor);
-            mid.setScaleY(scalingFactor);
+            masterPain.relocate((getWidth() - PREFERRED_SIZE) * 0.5, (getHeight() - PREFERRED_SIZE) * 0.5);
+            masterPain.setScaleX(scalingFactor);
+            masterPain.setScaleY(scalingFactor);
+
         }
     }
     private void initializeControls() {
         slider = new Slider();
         feet = new Label("feet");
         meter = new Label("meter");
-        eifeli = new ResizableCanvas();
-        eifeli.setWidth(100);
-        eifeli.setHeight(100);
-        overlay = new StackPane();
-        labelarrange = new HBox();
-        mid = new HBox();
-        d = new DummyBuilder();
         drawingPane = new Pane();
+        drawingPaneSlider = new Pane();
+        masterPain = new Pane();
+
     }
 
 //test
     private void layoutControls() {
-        setPadding(new Insets(10));
-        slider.setOrientation(Orientation.VERTICAL);
-        slider.setMin(0);
-        slider.setMax(1000);
-        slider.setValue(100);
-        slider.setShowTickLabels(true);
-        slider.setMajorTickUnit(200);
-        slider.setMinHeight(200);
-        slider.setMaxHeight(800);
-        drawingPane.getChildren().add(d);
-        overlay.getChildren().addAll(slider,drawingPane);
-        overlay.setAlignment(Pos.BOTTOM_RIGHT);
-        labelarrange.getChildren().addAll(meter,feet);
-        mid.getChildren().addAll(eifeli,overlay);
-        getChildren().addAll(labelarrange,mid);
 
+        drawingPane.getStyleClass().addAll("drawingPane");
+        drawingPaneSlider.getStyleClass().addAll("drawingPaneSlider");
+        slider.setOrientation(Orientation.VERTICAL);
+        slider.setPrefHeight(PREFERRED_SIZE);
+        slider.setMinHeight(PREFERRED_SIZE);
+        slider.setMajorTickUnit(100);
+        slider.setMax(1000);
+        slider.setShowTickLabels(true);
+        drawingPaneSlider.getChildren().addAll(slider);
+        masterPain.getChildren().addAll(drawingPaneSlider,drawingPane);
+        drawingPane.relocate(40,180);
+        masterPain.getStyleClass().addAll("master");
+        getChildren().addAll(masterPain);
 
     }
 

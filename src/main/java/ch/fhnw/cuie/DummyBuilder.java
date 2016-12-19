@@ -22,7 +22,7 @@ public class DummyBuilder extends Canvas{
         rectangle.setFill(Color.BLACK);
         rectangle.setX(0);
         rectangle.setY(0);
-        int y = 20;
+     /*   int y = 20;
         for(int i = 0 ; i < rectangle.getHeight(); i++ ){
             Rectangle window = new Rectangle(50,50);
             window.setFill(Color.WHITE);
@@ -32,6 +32,6 @@ public class DummyBuilder extends Canvas{
             window2.setX(170);
             window2.setY(y);
             y = y+20;
-        }
+        }*/
     }
 }
