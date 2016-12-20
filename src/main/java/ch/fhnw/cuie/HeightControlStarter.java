@@ -18,6 +18,7 @@ public class HeightControlStarter extends Application{
         primaryStage.setTitle("Height Reference");
         primaryStage.setScene(scene);
         primaryStage.show();
+
     }
 
     public static void main(String[] args) {
