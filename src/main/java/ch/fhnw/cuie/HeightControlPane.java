@@ -107,7 +107,7 @@ public class HeightControlPane extends Region {
        // dummyBuildPane.setPrefHeight(heightRect);
       //  dummyBuildPane.setLayoutY(positioning); // damit das Dummy-Building nach oben wächst
         dummyBuildPane.setLayoutX(150);
-        drawingPaneEifeli.relocate(40, 180);
+        drawingPaneEifeli.relocate(40, 230);
 
         drawingPaneSlider.getChildren().addAll(slider); // weil der Slider in einer Pane ist!
         masterPane.getChildren().addAll(drawingPaneSlider, drawingPaneEifeli, dummyBuildPane);
