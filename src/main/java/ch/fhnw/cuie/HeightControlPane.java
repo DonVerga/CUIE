@@ -14,6 +14,8 @@ public class HeightControlPane extends Region {
     private Slider slider;
     private Label feet , meter;
     private double test;
+    private double height = 32;
+    private double possitioning = PREFERRED_SIZE - height;
     private Pane drawingPane,drawingPaneSlider,dummyBuildPain,masterPain;
     private static final double PREFERRED_SIZE = 300;
     private static final double MINIMUM_SIZE   = 150;
@@ -82,11 +84,14 @@ public class HeightControlPane extends Region {
         slider.setOrientation(Orientation.VERTICAL);
         slider.setPrefHeight(PREFERRED_SIZE);
         slider.setMinHeight(PREFERRED_SIZE);
-        slider.setMajorTickUnit(100);
+        slider.setMajorTickUnit(200);
         slider.setMax(1000);
         slider.setShowTickLabels(true);
+        slider.getStyleClass().addAll("Slider");
         drawingPaneSlider.getChildren().addAll(slider);
-        dummyBuildPain.setPrefHeight(PREFERRED_SIZE);
+        dummyBuildPain.setPrefHeight(height);
+        dummyBuildPain.setLayoutY(possitioning);
+        dummyBuildPain.setLayoutX(150);
         dummyBuildPain.getStyleClass().addAll("dummyBuildPane");
         masterPain.getChildren().addAll(drawingPaneSlider,drawingPane,dummyBuildPain);
         drawingPane.relocate(40,180);
