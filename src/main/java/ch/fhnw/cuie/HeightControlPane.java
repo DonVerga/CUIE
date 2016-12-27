@@ -13,7 +13,7 @@ import javafx.scene.layout.*;
 public class HeightControlPane extends Region {
 
     // *** Elemente des Custom Control: *** //
-    private Label feet, meter;
+    private Label feet;
     private Slider slider;
     private Pane drawingPaneEifeli, drawingPaneSlider, dummyBuildPane, masterPane;
     private double pmeter;
@@ -79,7 +79,6 @@ public class HeightControlPane extends Region {
     private void initializeControls() {
         slider = new Slider();
         feet = new Label("feet");
-        meter = new Label("meter");
         drawingPaneEifeli = new Pane();
         drawingPaneSlider = new Pane();
         masterPane = new Pane();
@@ -102,14 +101,16 @@ public class HeightControlPane extends Region {
         slider.setMinHeight(PREFERRED_SIZE);
         slider.setMajorTickUnit(200);
         slider.setMax(1500);
-        slider.setShowTickLabels(false);
+        slider.setShowTickLabels(false); // false= keine Anzeige der Ticks
 
        // dummyBuildPane.setPrefHeight(heightRect);
       //  dummyBuildPane.setLayoutY(positioning); // damit das Dummy-Building nach oben wächst
         dummyBuildPane.setLayoutX(150);
         drawingPaneEifeli.relocate(40, 230);
+        feet.setLayoutX(150); // todo setLayoutY im changeListener
 
-        drawingPaneSlider.getChildren().addAll(slider); // weil der Slider in einer Pane ist!
+
+        drawingPaneSlider.getChildren().addAll(slider, feet); // weil der Slider in einer Pane ist!
         masterPane.getChildren().addAll(drawingPaneSlider, drawingPaneEifeli, dummyBuildPane);
         getChildren().addAll(masterPane);
     }
