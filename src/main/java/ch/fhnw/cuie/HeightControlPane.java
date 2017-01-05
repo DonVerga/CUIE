@@ -2,7 +2,6 @@ package ch.fhnw.cuie;
 
 import ch.fhnw.cuie.buildings.BuildingPM;
 import javafx.beans.binding.Bindings;
-import javafx.beans.binding.DoubleBinding;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.geometry.*;
@@ -12,19 +11,23 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.util.StringConverter;
 
+import java.text.DecimalFormat;
+
 
 public class HeightControlPane extends Region {
 
     // *** Elemente des Custom Control für Height: *** //
     private Label feet;
     private Label meter;
-    private TextField tfFeet;
-    private TextField tfMeter;
+    private Label lFeet;
+    private Label lMeter;
     private String calcMtoFt; // Hilfsvariable für Umrechnung Meter to Feet
     private Slider slider;
     private Pane drawingPaneEifeli, drawingPaneSlider, dummyBuildPane, masterPane;
-    private double pmeter;
+    //private double pmeter;
     private double heightRect = 50;
+
+    private DecimalFormat df = new DecimalFormat("#.00");
 
     private static final double PREFERRED_SIZE = 300;
     private static final double MINIMUM_SIZE = 150;
@@ -85,21 +88,26 @@ public class HeightControlPane extends Region {
 
     private String calculateMtoFt(double pmeter){
         double ftValue = pmeter*3.28084;
-        calcMtoFt = String.valueOf(ftValue);
+        DecimalFormat df = new DecimalFormat("#.00");
+        calcMtoFt = String.valueOf( df.format(ftValue));
         return calcMtoFt;
+    }
+    private String calculateFttoM(double Ft){
+        double meterVal = Ft/3.28084;
+        return  String.valueOf(meterVal);
     }
 
     private void initializeControls() {
         slider = new Slider();
         feet = new Label("ft");
         meter = new Label("m");
-        tfFeet = new TextField(calcMtoFt);
-        tfMeter = new TextField();
+        lFeet = new Label();
+        lMeter = new Label();
         drawingPaneEifeli = new Pane();
         drawingPaneSlider = new Pane();
         masterPane = new Pane();
         dummyBuildPane = new Pane();
-        pmeter = pm.getHeight_m();
+        //pmeter = pm.getHeight_m();
     }
 
     private void layoutControls() {
@@ -123,27 +131,36 @@ public class HeightControlPane extends Region {
         drawingPaneEifeli.relocate(40, 230);
         feet.setLayoutX(125); // todo setLayoutY im changeListener, wenns mit der Slider-Höhe analog sein soll!
         meter.setLayoutX(85);
-        tfFeet.setLayoutX(125);
-        tfFeet.setLayoutY(50);
-        tfMeter.setLayoutX(0);
-        tfMeter.setPrefWidth(85);
-        tfMeter.setLayoutY(50);
+        lFeet.setLayoutX(125);
+        lFeet.setLayoutY(50);
+        lMeter.setLayoutX(0);
+        lMeter.setPrefWidth(85);
+        lMeter.setLayoutY(50);
 
-        drawingPaneSlider.getChildren().addAll(slider, feet, meter, tfFeet, tfMeter); // weil der Slider in einer Pane ist!
+        drawingPaneSlider.getChildren().addAll(slider, feet, meter, lFeet, lMeter); // weil der Slider in einer Pane ist!
         masterPane.getChildren().addAll(drawingPaneSlider, drawingPaneEifeli, dummyBuildPane);
         getChildren().addAll(masterPane);
     }
 
 
     private void addValueChangeListeners() {
+      slider.valueProperty().addListener((observable, oldValue, newValue) -> {
+          lMeter.textProperty().set(df.format(newValue.doubleValue()));
+      });
         slider.valueProperty().addListener((observable, oldValue, newValue) -> {
             dummyBuildPane.setLayoutY(PREFERRED_SIZE - (newValue.doubleValue() * 0.2));
         });
+
+        slider.valueProperty().addListener((observable, oldValue, newValue) -> {
+            lFeet.textProperty().set(calculateMtoFt(newValue.doubleValue()));
+        });
+
     }
 
 
     private void addBindings() {
-        slider.valueProperty().bindBidirectional(pm.height_mProperty());
+       slider.valueProperty().bindBidirectional((pm.height_mProperty()));
+        //calculation meter to pixel
         dummyBuildPane.prefHeightProperty().bind(slider.valueProperty().multiply(0.2));
 
         // copy+paste von StandardFormPane
@@ -197,8 +214,8 @@ public class HeightControlPane extends Region {
             }
         };
         // damit Binding zum TextField Meter klappt
-        Bindings.bindBidirectional(tfMeter.textProperty(), pm.height_mProperty(), doubleStringConverter);
-        tfMeter.textProperty().bindBidirectional(tfFeet.textProperty());
+       // Bindings.bindBidirectional(lMeter.textProperty(), pm.height_mProperty(), doubleStringConverter);
+        //lMeter.textProperty().bindBidirectional(lFeet.textProperty());
     }
 
 
@@ -239,19 +256,19 @@ public class HeightControlPane extends Region {
         this.meter = meter;
     }
 
-    public TextField getTfFeet() {
-        return tfFeet;
+    public Label getlFeet() {
+        return lFeet;
     }
 
-    public void setTfFeet(TextField tfFeet) {
-        this.tfFeet = tfFeet;
+    public void setlFeet(Label lFeet) {
+        this.lFeet = lFeet;
     }
 
-    public TextField getTfMeter() {
-        return tfMeter;
+    public Label getlMeter() {
+        return lMeter;
     }
 
-    public void setTfMeter(TextField tfMeter) {
-        this.tfMeter = tfMeter;
+    public void setlMeter(Label lMeter) {
+        this.lMeter = lMeter;
     }
 }
