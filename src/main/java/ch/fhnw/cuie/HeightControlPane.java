@@ -88,7 +88,6 @@ public class HeightControlPane extends Region {
 
     private String calculateMtoFt(double pmeter){
         double ftValue = pmeter*3.28084;
-        DecimalFormat df = new DecimalFormat("#.00");
         calcMtoFt = String.valueOf( df.format(ftValue));
         return calcMtoFt;
     }
@@ -99,8 +98,8 @@ public class HeightControlPane extends Region {
 
     private void initializeControls() {
         slider = new Slider();
-        feet = new Label("ft");
-        meter = new Label("m");
+        feet = new Label("ft:");
+        meter = new Label("m:");
         lFeet = new Label();
         lMeter = new Label();
         drawingPaneEifeli = new Pane();
@@ -130,12 +129,11 @@ public class HeightControlPane extends Region {
         dummyBuildPane.setLayoutX(150);
         drawingPaneEifeli.relocate(40, 230);
         feet.setLayoutX(125); // todo setLayoutY im changeListener, wenns mit der Slider-Höhe analog sein soll!
-        meter.setLayoutX(85);
-        lFeet.setLayoutX(125);
-        lFeet.setLayoutY(50);
-        lMeter.setLayoutX(0);
+        meter.setLayoutX(35);
+        lFeet.setLayoutX(140);
+        lMeter.setLayoutX(55);
         lMeter.setPrefWidth(85);
-        lMeter.setLayoutY(50);
+
 
         drawingPaneSlider.getChildren().addAll(slider, feet, meter, lFeet, lMeter); // weil der Slider in einer Pane ist!
         masterPane.getChildren().addAll(drawingPaneSlider, drawingPaneEifeli, dummyBuildPane);
@@ -213,9 +211,7 @@ public class HeightControlPane extends Region {
                 }
             }
         };
-        // damit Binding zum TextField Meter klappt
-       // Bindings.bindBidirectional(lMeter.textProperty(), pm.height_mProperty(), doubleStringConverter);
-        //lMeter.textProperty().bindBidirectional(lFeet.textProperty());
+
     }
 
 
