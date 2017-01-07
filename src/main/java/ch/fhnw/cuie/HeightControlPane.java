@@ -117,6 +117,10 @@ public class HeightControlPane extends Region {
         dummyBuildPane.getStyleClass().addAll("dummyBuildPane");
         masterPane.getStyleClass().addAll("master");
         slider.getStyleClass().addAll("Slider");
+        lFeet.getStyleClass().addAll("lFeet");
+        lMeter.getStyleClass().addAll("lMeter");
+        meter.getStyleClass().addAll("lMeter");
+        feet.getStyleClass().addAll("lMeter");
 
         // Slider configurations:
         slider.setOrientation(Orientation.VERTICAL);
@@ -128,11 +132,11 @@ public class HeightControlPane extends Region {
 
         dummyBuildPane.setLayoutX(150);
         drawingPaneEifeli.relocate(40, 230);
-        feet.setLayoutX(125); // todo setLayoutY im changeListener, wenns mit der Slider-Höhe analog sein soll!
-        meter.setLayoutX(35);
-        lFeet.setLayoutX(140);
-        lMeter.setLayoutX(55);
-        lMeter.setPrefWidth(85);
+        feet.setLayoutX(230); // todo setLayoutY im changeListener, wenns mit der Slider-Höhe analog sein soll!
+        meter.setLayoutX(-80);
+        lFeet.setLayoutX(250);
+        lMeter.setLayoutX(-60);
+
 
 
         drawingPaneSlider.getChildren().addAll(slider, feet, meter, lFeet, lMeter); // weil der Slider in einer Pane ist!
@@ -145,13 +149,22 @@ public class HeightControlPane extends Region {
       slider.valueProperty().addListener((observable, oldValue, newValue) -> {
           lMeter.textProperty().set(df.format(newValue.doubleValue()));
       });
+
         slider.valueProperty().addListener((observable, oldValue, newValue) -> {
-            dummyBuildPane.setLayoutY(PREFERRED_SIZE - (newValue.doubleValue() * 0.2));
+            dummyBuildPane.setLayoutY(PREFERRED_SIZE - (newValue.doubleValue() * 0.19));
         });
 
         slider.valueProperty().addListener((observable, oldValue, newValue) -> {
             lFeet.textProperty().set(calculateMtoFt(newValue.doubleValue()));
         });
+        slider.valueProperty().addListener((observable, oldValue, newValue) -> {
+            lFeet.setLayoutY(dummyBuildPane.getLayoutY()-18);
+            feet.setLayoutY(dummyBuildPane.getLayoutY()-18);
+            lMeter.setLayoutY(dummyBuildPane.getLayoutY()-18);
+            meter.setLayoutY(dummyBuildPane.getLayoutY()-18);
+        });
+
+
 
     }
 
@@ -159,7 +172,7 @@ public class HeightControlPane extends Region {
     private void addBindings() {
        slider.valueProperty().bindBidirectional((pm.height_mProperty()));
         //calculation meter to pixel
-        dummyBuildPane.prefHeightProperty().bind(slider.valueProperty().multiply(0.2));
+       dummyBuildPane.prefHeightProperty().bind(slider.valueProperty().multiply(0.19));
 
         // copy+paste von StandardFormPane
         StringConverter<Number> longStringConverter = new StringConverter<Number>() {

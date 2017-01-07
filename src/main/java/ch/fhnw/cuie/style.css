@@ -18,7 +18,7 @@
     -fx-scale-shape: false;
     -fx-position-shape: true;
     -fx-background-color: black;
-    -fx-pref-width: 50px;
+    -fx-pref-width: 70px;
 }
 
 .slider .thumb {
@@ -26,7 +26,7 @@
 }
 
 .slider .track {
-    -fx-background-color: aqua;
+    -fx-background-color: mediumturquoise;
 }
 
 .slider .tick-label {
@@ -35,12 +35,23 @@
 }
 
 .slider *.thumb {
-    -fx-background-color: derive(lightblue,-50%), lightblue;
-    -fx-background-radius: 0, 0;
-    -fx-background-insets: 0,20;
+    -fx-background-color:lightblue;
+    -fx-border-style: hidden;
+    -fx-border-width: 20px;
     -fx-pref-width: 220;
-    -fx-padding: 3;
+    -fx-pref-height: 10px;
 }
-
+.lFeet{
+    -fx-font-family: "Roboto Bold";
+}
+.lMeter{
+    -fx-font-family: "Roboto Bold";
+}
+.feet{
+    -fx-font-family: "Roboto Bold";
+}
+.meter{
+    -fx-font-family: "Roboto Bold";
+}
 
 
