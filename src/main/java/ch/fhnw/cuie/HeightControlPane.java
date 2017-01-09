@@ -1,45 +1,38 @@
 package ch.fhnw.cuie;
 
 import ch.fhnw.cuie.buildings.BuildingPM;
-import javafx.beans.binding.Bindings;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.geometry.*;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.util.StringConverter;
 
 import java.text.DecimalFormat;
 
-
 public class HeightControlPane extends Region {
 
-    // *** Elemente des Custom Control für Height: *** //
+    // *** Variablen: Elemente des Custom Control für Height: *** //
     private Label feet;
     private Label meter;
-    private Label lFeet;
-    private Label lMeter;
-    private String calcMtoFt; // Hilfsvariable für Umrechnung Meter to Feet
+    private Label lFeet; // Inhalt
+    private Label lMeter; // Inhalt
     private Slider slider;
-    private Pane drawingPaneEifeli, drawingPaneSlider, dummyBuildPane, masterPane;
-    //private double pmeter;
-    private double heightRect = 50;
 
+    // *** Variablen: Hilfsvariablen: *** //
+    private String calcMtoFt; // Hilfsvariable, für Umrechnung Meter to Feet
     private DecimalFormat df = new DecimalFormat("#.00");
 
+    // *** Variablen: 4 Panes benutzt, alles wird auf dem pasterPane platziert: *** //
+    private Pane drawingPaneEifeli, drawingPaneSlider, dummyBuildPane, masterPane;
+
+    // *** Variablen: für die Grösse/Resizing: *** //
     private static final double PREFERRED_SIZE = 300;
     private static final double MINIMUM_SIZE = 150;
     private static final double MAXIMUM_SIZE = 600;
 
-    private double positioning = PREFERRED_SIZE - heightRect;
-
-    private final BuildingPM pm;
-
-    // Properties for binding:
-    //private final DoubleProperty sliderValue = new SimpleDoubleProperty();
-    private final DoubleProperty rectValue = new SimpleDoubleProperty();
+    private final BuildingPM pm; // TODO: 09.01.2017  Einfügen PM bei oop2-Person
 
     // Constructor:
     public HeightControlPane(BuildingPM pm) {
@@ -86,16 +79,6 @@ public class HeightControlPane extends Region {
         }
     }
 
-    private String calculateMtoFt(double pmeter){
-        double ftValue = pmeter*3.28084;
-        calcMtoFt = String.valueOf( df.format(ftValue));
-        return calcMtoFt;
-    }
-    private String calculateFttoM(double Ft){
-        double meterVal = Ft/3.28084;
-        return  String.valueOf(meterVal);
-    }
-
     private void initializeControls() {
         slider = new Slider();
         feet = new Label("ft:");
@@ -106,7 +89,6 @@ public class HeightControlPane extends Region {
         drawingPaneSlider = new Pane();
         masterPane = new Pane();
         dummyBuildPane = new Pane();
-        //pmeter = pm.getHeight_m();
     }
 
     private void layoutControls() {
@@ -132,121 +114,54 @@ public class HeightControlPane extends Region {
 
         dummyBuildPane.setLayoutX(150);
         drawingPaneEifeli.relocate(40, 230);
-        feet.setLayoutX(230); // todo setLayoutY im changeListener, wenns mit der Slider-Höhe analog sein soll!
+        feet.setLayoutX(230);
         meter.setLayoutX(-80);
         lFeet.setLayoutX(250);
         lMeter.setLayoutX(-60);
-
-
 
         drawingPaneSlider.getChildren().addAll(slider, feet, meter, lFeet, lMeter); // weil der Slider in einer Pane ist!
         masterPane.getChildren().addAll(drawingPaneSlider, drawingPaneEifeli, dummyBuildPane);
         getChildren().addAll(masterPane);
     }
 
-
     private void addValueChangeListeners() {
-      slider.valueProperty().addListener((observable, oldValue, newValue) -> {
-          lMeter.textProperty().set(df.format(newValue.doubleValue()));
-      });
-
+        // *** Wenn sich der Wert des Sliders ändert, dann ändert sich die Höhe des Dummy-Gebäude
+        // (mit Korrektur der Position und Umrechnung in Pixel): *** //
         slider.valueProperty().addListener((observable, oldValue, newValue) -> {
             dummyBuildPane.setLayoutY(PREFERRED_SIZE - (newValue.doubleValue() * 0.19));
         });
 
+        // *** Wenn sich der Wert des Sliders ändert, dann ändert sich der Inhalt von LabelMeter&LabelFeet: *** //
+        slider.valueProperty().addListener((observable, oldValue, newValue) -> {
+            lMeter.textProperty().set(df.format(newValue.doubleValue()));
+        });
         slider.valueProperty().addListener((observable, oldValue, newValue) -> {
             lFeet.textProperty().set(calculateMtoFt(newValue.doubleValue()));
         });
+
+        // *** Wenn sich der Wert des Sliders ändert, dann verschiebt sich die Position des LabelMeter&LabelFeet: *** //
         slider.valueProperty().addListener((observable, oldValue, newValue) -> {
-            lFeet.setLayoutY(dummyBuildPane.getLayoutY()-18);
-            feet.setLayoutY(dummyBuildPane.getLayoutY()-18);
-            lMeter.setLayoutY(dummyBuildPane.getLayoutY()-18);
-            meter.setLayoutY(dummyBuildPane.getLayoutY()-18);
+            lFeet.setLayoutY(dummyBuildPane.getLayoutY() - 18);
+            feet.setLayoutY(dummyBuildPane.getLayoutY() - 18);
+            lMeter.setLayoutY(dummyBuildPane.getLayoutY() - 18);
+            meter.setLayoutY(dummyBuildPane.getLayoutY() - 18);
         });
-
-
-
     }
-
 
     private void addBindings() {
-       slider.valueProperty().bindBidirectional((pm.height_mProperty()));
-        //calculation meter to pixel
-       dummyBuildPane.prefHeightProperty().bind(slider.valueProperty().multiply(0.19));
-
-        // copy+paste von StandardFormPane
-        StringConverter<Number> longStringConverter = new StringConverter<Number>() {
-            @Override
-            public String toString(Number number) {
-                return number.toString();
-            }
-
-            @Override
-            public Number fromString(String string) {
-                try {
-                    return Long.valueOf(string);
-                }
-                catch (NumberFormatException ex){
-                    return 0L;
-                }
-            }
-        };
-        StringConverter<Number> integerStringConverter = new StringConverter<Number>() {
-            @Override
-            public String toString(Number n) {
-                return n.toString();
-            }
-
-            @Override
-            public Number fromString(String string) {
-                try {
-                    return Integer.valueOf(string);
-                }
-                catch (NumberFormatException ex){
-                    return 0;
-                }
-            }
-        };
-
-        StringConverter<Number> doubleStringConverter = new StringConverter<Number>() {
-            @Override
-            public String toString(Number n) {
-                return n.toString();
-            }
-
-            @Override
-            public Number fromString(String string) {
-                try {
-                    return Double.valueOf(string);
-                }
-                catch (NumberFormatException ex){
-                    return 0.0;
-                }
-            }
-        };
-
+        slider.valueProperty().bindBidirectional((pm.height_mProperty()));
+        dummyBuildPane.prefHeightProperty().bind(slider.valueProperty().multiply(0.19)); //calculation meter to pixel
     }
 
-
-    // Getter und Setter
-    public double getHeightRect() {
-        return heightRect;
+    private String calculateMtoFt(double pmeter) {
+        double ftValue = pmeter * 3.28084;
+        calcMtoFt = String.valueOf(df.format(ftValue));
+        return calcMtoFt;
     }
 
-    public void setHeightRect(double heightRect) {
-        this.heightRect = heightRect;
-    }
-
-    public double getRectValue() {
-        return rectValue.get();
-    }
-
-    public DoubleProperty rectValueProperty() {
-        return rectValue;
-    }
-
-    public void setRectValue(double rectValue) {
-        this.rectValue.set(rectValue);
+    private String calculateFttoM(double Ft) {
+        double meterVal = Ft / 3.28084;
+        return String.valueOf(meterVal);
     }
 
     public Label getFeet() {
