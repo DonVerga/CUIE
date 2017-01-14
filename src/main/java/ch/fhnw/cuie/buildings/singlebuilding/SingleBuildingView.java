@@ -1,6 +1,6 @@
 package ch.fhnw.cuie.buildings.singlebuilding;
 
-import ch.fhnw.cuie.HeightControlPane;
+import ch.fhnw.cuie.customControl4Height.HeightControlPane;
 import ch.fhnw.cuie.buildings.BuildingPM;
 import javafx.scene.Node;
 import javafx.scene.layout.VBox;

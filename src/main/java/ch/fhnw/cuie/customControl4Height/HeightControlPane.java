@@ -1,4 +1,4 @@
-package ch.fhnw.cuie;
+package ch.fhnw.cuie.customControl4Height;
 
 import ch.fhnw.cuie.buildings.BuildingPM;
 import javafx.beans.property.DoubleProperty;
@@ -183,8 +183,7 @@ public class HeightControlPane extends Region {
     }
 
     private double calculateFttoMdouble(double ft) {
-        double meterVal;
-        return meterVal = ft / FTMETER;
+        return ft / FTMETER;
     }
 
     public Label getFeet() {
