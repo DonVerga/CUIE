@@ -24,6 +24,7 @@ public class HeightControlPane extends Region {
     // *** Variablen: Hilfsvariablen: *** //
     private String calcMtoFt; // Hilfsvariable, für Umrechnung Meter to Feet
     private DecimalFormat df = new DecimalFormat("#.00");
+    private SimpleDoubleProperty ghost; // Hilfsvariable für Binding feet to slider
 
     // *** Variablen: 4 Panes benutzt, alles wird auf dem pasterPane platziert: *** //
     private Pane drawingPaneEifeli, drawingPaneSlider, dummyBuildPane, masterPane;
@@ -33,7 +34,7 @@ public class HeightControlPane extends Region {
     private static final double MINIMUM_SIZE = 150;
     private static final double MAXIMUM_SIZE = 600;
 
-    private final BuildingPM pm; // TODO: 10.01.2017  Einfügen PM bei oop2-Person
+    private final BuildingPM pm;
 
     // Constructor:
     public HeightControlPane(BuildingPM pm) {
@@ -90,6 +91,7 @@ public class HeightControlPane extends Region {
         drawingPaneSlider = new Pane();
         masterPane = new Pane();
         dummyBuildPane = new Pane();
+        ghost = new SimpleDoubleProperty();
     }
 
     private void layoutControls() {
@@ -147,11 +149,20 @@ public class HeightControlPane extends Region {
             lMeter.setLayoutY(dummyBuildPane.getLayoutY() - 18);
             meter.setLayoutY(dummyBuildPane.getLayoutY() - 18);
         });
+
+        slider.valueProperty().addListener((observable, oldValue, newValue) -> {
+            pm.setHeight_ft(calculateMtoFtdouble(newValue.doubleValue()));
+        });
+
+        ghost.addListener((observable, oldValue, newValue) -> {
+            pm.setHeight_m(calculateFttoMdouble(newValue.doubleValue()));
+        });
     }
 
     private void addBindings() {
         slider.valueProperty().bindBidirectional((pm.height_mProperty()));
         dummyBuildPane.prefHeightProperty().bind(slider.valueProperty().multiply(0.19)); //calculation meter to pixel
+        ghost.bind(pm.height_ftProperty());
     }
 
     // *** Hilfsmethoden für die Umrechnung Meter zu Feet***//
@@ -165,9 +176,15 @@ public class HeightControlPane extends Region {
         double meterVal = Ft / FTMETER;
         return String.valueOf(meterVal);
     }
+
     private double calculateMtoFtdouble(double m) {
         double ftVal = m * FTMETER;
         return ftVal;
+    }
+
+    private double calculateFttoMdouble(double ft) {
+        double meterVal;
+        return meterVal = ft / FTMETER;
     }
 
     public Label getFeet() {
