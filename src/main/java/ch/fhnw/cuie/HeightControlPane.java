@@ -149,7 +149,7 @@ public class HeightControlPane extends Region {
     }
 
     private void addBindings() {
-        slider.valueProperty().bindBidirectional((pm.height_mProperty())); //TODO: 10.01.2017  Einfügen PM bei oop2-Person
+        slider.valueProperty().bindBidirectional((pm.height_mProperty()));
         dummyBuildPane.prefHeightProperty().bind(slider.valueProperty().multiply(0.19)); //calculation meter to pixel
     }
 
@@ -163,6 +163,10 @@ public class HeightControlPane extends Region {
     private String calculateFttoM(double Ft) {
         double meterVal = Ft / 3.28084;
         return String.valueOf(meterVal);
+    }
+    private double calculateMtoFtdouble(double m) {
+        double ftVal = m * 3.28084;
+        return ftVal;
     }
 
     public Label getFeet() {
