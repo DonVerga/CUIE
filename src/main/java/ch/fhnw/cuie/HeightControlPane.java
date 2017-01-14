@@ -19,6 +19,7 @@ public class HeightControlPane extends Region {
     private Label lFeet; // Inhalt
     private Label lMeter; // Inhalt
     private Slider slider;
+    private double FTMETER = 3.28084; // Konstante für 1m = 3.28084ft
 
     // *** Variablen: Hilfsvariablen: *** //
     private String calcMtoFt; // Hilfsvariable, für Umrechnung Meter to Feet
@@ -155,17 +156,17 @@ public class HeightControlPane extends Region {
 
     // *** Hilfsmethoden für die Umrechnung Meter zu Feet***//
     private String calculateMtoFt(double pmeter) {
-        double ftValue = pmeter * 3.28084;
+        double ftValue = pmeter * FTMETER;
         calcMtoFt = String.valueOf(df.format(ftValue));
         return calcMtoFt;
     }
 
     private String calculateFttoM(double Ft) {
-        double meterVal = Ft / 3.28084;
+        double meterVal = Ft / FTMETER;
         return String.valueOf(meterVal);
     }
     private double calculateMtoFtdouble(double m) {
-        double ftVal = m * 3.28084;
+        double ftVal = m * FTMETER;
         return ftVal;
     }
 
