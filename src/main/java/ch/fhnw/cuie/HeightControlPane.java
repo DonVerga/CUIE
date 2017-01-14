@@ -32,7 +32,7 @@ public class HeightControlPane extends Region {
     private static final double MINIMUM_SIZE = 150;
     private static final double MAXIMUM_SIZE = 600;
 
-    private final BuildingPM pm; // TODO: 09.01.2017  Einfügen PM bei oop2-Person
+    private final BuildingPM pm; // TODO: 10.01.2017  Einfügen PM bei oop2-Person
 
     // Constructor:
     public HeightControlPane(BuildingPM pm) {
@@ -149,10 +149,11 @@ public class HeightControlPane extends Region {
     }
 
     private void addBindings() {
-        slider.valueProperty().bindBidirectional((pm.height_mProperty()));
+        slider.valueProperty().bindBidirectional((pm.height_mProperty())); //TODO: 10.01.2017  Einfügen PM bei oop2-Person
         dummyBuildPane.prefHeightProperty().bind(slider.valueProperty().multiply(0.19)); //calculation meter to pixel
     }
 
+    // *** Hilfsmethoden für die Umrechnung Meter zu Feet***//
     private String calculateMtoFt(double pmeter) {
         double ftValue = pmeter * 3.28084;
         calcMtoFt = String.valueOf(df.format(ftValue));
